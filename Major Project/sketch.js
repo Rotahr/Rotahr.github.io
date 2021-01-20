@@ -1,10 +1,3 @@
-// Major Project
-// Samein Dorazahi
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
 // State variable
 let gameState = 'veri';
 let gameStated;
@@ -15,7 +8,7 @@ let answered;
 
 // Adding timers using millis()
 let waitTime = 1000;
-let i = 0;
+let timer = 0;
 
 
 
@@ -26,7 +19,7 @@ let info = {
   color: "What is your hair color?",
   base: "string",
   text: "text"
-};
+}
 let storage;
 let question = 1;
 
@@ -42,13 +35,13 @@ function draw() {
 
 
   // Sets up for future text
-  textAlign(LEFT);
+  textAlign(LEFT)
 
 
 
   // Timer for each second, useful for each function
   if (millis() > waitTime) {
-    i += 1;
+    i += 1
     waitTime += 1000;
   }
 
@@ -57,8 +50,8 @@ function draw() {
   // Fullscreen Verification Ongoing
   if (!window.screenTop && !window.screenY && gameState != 'veri' && gameState != 'no') {
 
-    gameStated = gameState;
-    gameState = 'no';
+    gameStated = gameState
+    gameState = 'no'
 
   }
 
@@ -114,27 +107,27 @@ function youLeft() {
 
   if (!window.screenTop && !window.screenY) {
 
-    i = 0;
+    timer = 0;
 
-    fill('black');
-    background('white');
-    textSize(70);
-    textAlign(CENTER);
-    text("hey don't do that, go back", width / 2, height / 2);
+    fill('black')
+    background('white')
+    textSize(70)
+    textAlign(CENTER)
+    text("hey don't do that, go back", width / 2, height / 2)
 
 
 
     // After they re-enter fullscreen
   } else if (window.screenTop && window.screenY) {
 
-    background('white');
-    textAlign(CENTER);
-    text("thanks, sending you back now.", width / 2, height / 2);
+    background('white')
+    textAlign(CENTER)
+    text("thanks, sending you back now.", width / 2, height / 2)
 
-    if (i === 3) {
+    if (timer === 3) {
 
-      i = 0; //Might need to change this based off text game
-      gameState = gameStated;
+      timer = 0; //Might need to change this based off text game
+      gameState = gameStated
 
     }
 
@@ -150,32 +143,32 @@ function fsVerification() {
 
 
   // Text that pops up at the beginning of the game
-  fill('black');
-  textAlign(LEFT);
+  fill('black')
+  textAlign(LEFT)
 
-  if (i === 1) {
-    textSize(100);
-    text('Hey!', width / 2 - 100, height / 2 - 200);
+  if (timer === 1) {
+    textSize(100)
+    text('Hey!', width / 2 - 100, height / 2 - 200)
   }
-  if (i === 2) {
-    textSize(50);
-    text('It seems like you chose to play my game!', 30, height / 2 - 150, width, height / 2 - 100);
+  if (timer === 2) {
+    textSize(50)
+    text('It seems like you chose to play my game!', 30, height / 2 - 150, width, height / 2 - 100)
   }
-  if (i === 4) {
+  if (timer === 4) {
     textSize(25)
-    text("I'm very grateful.", width / 2 - 100, height / 2 - 50);
+    text("I'm very grateful.", width / 2 - 100, height / 2 - 50)
   }
-  if (i === 5) {
-    textSize(50);
-    text("But, to get this game to work, I'm gonna have to get you to go into fullscreen", 30, height / 2 - 25, width, height / 2 - 100);
+  if (timer === 5) {
+    textSize(50)
+    text("But, to get this game to work, I'm gonna have to get you to go into fullscreen", 30, height / 2 - 25, width, height / 2 - 100)
   }
-  if (i === 8) {
-    textSize(50);
-    text('so... if you could press that f11 button I would be very happy', 30, height / 2 + 200);
+  if (timer === 8) {
+    textSize(50)
+    text('so... if you could press that f11 button I would be very happy', 30, height / 2 + 200)
   }
-  if (i === 10) {
-    textSize(30);
-    text('you might need to click on the game first', 30, height / 2 + 300);
+  if (timer === 10) {
+    textSize(30)
+    text('you might need to click on the game first', 30, height / 2 + 300)
   }
 
 
@@ -183,23 +176,23 @@ function fsVerification() {
   //Fullscreen Verification
   if (keyIsDown(122)) {
 
-    background('white');
-    textSize(100);
-    textAlign(CENTER);
-    text("Thank you!", width / 2, height / 2 - 100);
-    text("let us begin.", width / 2, height / 2);
-    i = -100;
+    background('white')
+    textSize(100)
+    textAlign(CENTER)
+    text("Thank you!", width / 2, height / 2 - 100)
+    text("let us begin.", width / 2, height / 2)
+    timer = -100
 
   }
 
 
 
   // Send you to the title screen
-  if (i === -97) {
+  if (timer === -97) {
 
-    i = 0;
-    createCanvas(displayWidth, displayHeight);
-    gameState = 'title';
+    timer = 0
+    createCanvas(displayWidth, displayHeight)
+    gameState = 'title'
 
   }
 
@@ -217,7 +210,7 @@ function titleScreen() {
 
 
   //Title
-  textAlign(CENTER);
+  textAlign(CENTER)
   fill('white');
   textSize(100);
   textStyle(ITALIC);
@@ -227,15 +220,15 @@ function titleScreen() {
   textSize(width / 50);
   text('share your information and have it presented on screen!', width / 2, height / 2 - 175);
 
-  textAlign(LEFT);
+  textAlign(LEFT)
 
 
 
   //The play button
   playButton = new Clickable();
 
-  playButton.x = (width - 750) / 2;
-  playButton.y = (height + 200) / 2;
+  playButton.x = (width - 750) / 2
+  playButton.y = (height + 200) / 2
   playButton.width = 750;
   playButton.height = 100;
   playButton.color = "black"; //Background color of the clickable (hex number as a string)
@@ -256,7 +249,7 @@ function titleScreen() {
 
     timer = millis();
     if (millis() > timer) {
-      fill('red');
+      fill('red')
       text("You have so much information, don't you?", width / 2, height / 2);
     }
 
@@ -265,14 +258,14 @@ function titleScreen() {
   // Changing game state when clicked
   playButton.onPress = function() {
 
-    background('red');
-    fill('black');
+    background('red')
+    fill('black')
 
     text('thank you', width / 2, height / 2);
 
     gameState = 'info';
 
-    i = 0;
+    timer = 0;
 
   }
 
@@ -290,21 +283,21 @@ function infoGame() {
 
   }
 
-  if (answered === 1 && i === 2) {
+  if (answered === 1 && timer === 2) {
     textAlign(CENTER);
     background('white');
     text('Welcome to the Information Presenter!', width / 2, height / 2);
   }
 
   if (answered === 1 && i > 4) {
-    textAlign(CENTER);
+    textAlign(CENTER)
     background('white');
     text("I'm going to be asking you a few questions, and your answers will appear on screen!", 10, height / 2 - 300, width, height / 2 + 50);
 
     infoButton = new Clickable();
 
-    infoButton.x = (width - 750) / 2;
-    infoButton.y = (height + 200) / 2;
+    infoButton.x = (width - 750) / 2
+    infoButton.y = (height + 200) / 2
     infoButton.width = 750;
     infoButton.height = 100;
     infoButton.color = "white"; //Background color of the clickable (hex number as a string)
@@ -319,7 +312,7 @@ function infoGame() {
     infoButton.onPress = function() {
 
       background('white');
-      i = 0;
+      timer = 0;
       answered = 2;
       x = 1;
 
@@ -329,13 +322,13 @@ function infoGame() {
 
   if (question === 1) {
 
-    info.base = info.name;
+    info.base = info.name
 
   }
 
   if (question === 2) {
 
-    info.base = info.age;
+    info.base = info.age
     
     gameState = 'end';
     
@@ -350,11 +343,11 @@ function infoGame() {
 
   if (answered === 2) {
 
-    info.text = prompt(info.base);
+    info.text = prompt(info.base)
 
     if (info.base != null) {
-      text(info.text, 20, (question) * 100);
-      i = 0;
+      text(info.text, 20, (question) * 100)
+      timer = 0;
       question += 1
     }
 
@@ -366,8 +359,8 @@ function infoGame() {
 // temp end screen
 function end() {
   
-  background('white');
-  textAlign(CENTER);
-  text("that's it goodbye", width / 2, height / 2);
+  background('white')
+  textAlign(CENTER)
+  text("that's it goodbye", width / 2, height / 2)
   
 }
