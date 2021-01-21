@@ -28,7 +28,7 @@ function draw() {
 
 function displayPlayer() {
 
-  fill('black');
+  fill("black");
   ellipse(playerX, playerY, 75, 75);
 
 }
@@ -42,7 +42,7 @@ function handleBullets() {
     
     
     //display
-    fill('red');
+    fill("red");
     ellipse(bullet.x, bullet.y, bullet.radius * 2);
 
 
@@ -53,8 +53,8 @@ function spawnBullet() {
 
   let xDiff = mouseX - playerX;
   let yDiff = mouseY - playerY;
-  let xSpeed = map(xDiff, -width/2, width/2, -10, 10)
-  let ySpeed = map(yDiff, -height/2, height/2, -10, 10)
+  let xSpeed = map(xDiff, -width/2, width/2, -10, 10);
+  let ySpeed = map(yDiff, -height/2, height/2, -10, 10);
 
 
   let bullet = {
