@@ -13,15 +13,9 @@ let timer = 0;
 
 
 // Questions it asks you in infoGame()
-let info = {
-  age: "What is your age?",
-  name: "What is your name?",
-  color: "What is your hair color?",
-  base: "string",
-  text: "text"
-};
-let storage;
-let question = 1;
+let questions = ["What is your name?", "What is your age?", "What is your hair color?"];
+let onScreen = [];
+let numberOfQuestionsAsked = 1;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -221,8 +215,6 @@ function titleScreen() {
   textSize(width / 50);
   text("share your information and have it presented on screen!", width / 2, height / 2 - 175);
 
-  textAlign(LEFT);
-
 
 
   //The play button
@@ -255,6 +247,18 @@ function titleScreen() {
       text("You have so much information, don't you?", width / 2, height / 2);
     }
 
+    playButton.x = (width - 750) / 2;
+    playButton.y = (height + 200) / 2;
+    playButton.width = 750;
+    playButton.height = 100;
+    playButton.color = "white"; //Background color of the clickable (hex number as a string)
+    playButton.stroke = "black"; //Border color of the clickable (hex number as a string)
+    playButton.text = "Insert Information!"; //Text of the clickable (string)
+    playButton.textColor = "black"; //Color of the text (hex number as a string)
+    playButton.textSize = 70; //Size of the text (integer)
+
+    playButton.draw();
+
   };
 
   // Changing game state when clicked
@@ -285,16 +289,11 @@ function infoGame() {
 
   }
 
-  if (answered === 1 && timer === 2) {
+  if (answered === 1 && timer > 3) {
     textAlign(CENTER);
     background("white");
-    text("Welcome to the Information Presenter!", width / 2, height / 2);
-  }
-
-  if (answered === 1 && timer > 4) {
-    textAlign(CENTER);
-    background("white");
-    text("I'm going to be asking you a few questions, and your answers will appear on screen!", 10, height / 2 - 300, width, height / 2 + 50);
+    text("I'm going to be asking you a few questions", width / 2, height / 2 - 200);
+    text("and your answers will appear on screen!", width / 2, height / 2 - 100 );
 
     // eslint-disable-next-line no-undef
     let infoButton = new Clickable();
@@ -311,6 +310,22 @@ function infoGame() {
 
     infoButton.draw();
 
+    infoButton.onHover = function() {
+
+      infoButton.x = (width - 750) / 2;
+      infoButton.y = (height + 200) / 2;
+      infoButton.width = 750;
+      infoButton.height = 100;
+      infoButton.color = "black"; //Background color of the clickable (hex number as a string)
+      infoButton.stroke = "white"; //Border color of the clickable (hex number as a string)
+      infoButton.text = "Ready?"; //Text of the clickable (string)
+      infoButton.textColor = "white"; //Color of the text (hex number as a string)
+      infoButton.textSize = 70; //Size of the text (integer)
+
+      infoButton.draw();
+
+    };
+
 
     infoButton.onPress = function() {
 
@@ -322,37 +337,50 @@ function infoGame() {
 
   }
 
-  if (question === 1) {
-
-    info.base = info.name;
-
-  }
-
-  if (question === 2) {
-
-    info.base = info.age;
-    
-    gameState = "end";
-    
-  }
-  
-  if (question === 3) {
-    
-    gameState = "end";
-    
+  else if (answered === 1) {
+    textAlign(CENTER);
+    background("white");
+    text("Welcome to the Information Presenter!", width / 2, height / 2);
   }
 
 
-  if (answered === 2) {
+
+  // if (numberOfQuestionsAsked === 1 && timer > 2) {
+
+  //   info.base = info.name;
+
+  // }
+
+  // if (numberOfQuestionsAsked === 2 && timer > 2) {
+
+  //   info.base = info.age;
+    
+  //   gameState = "end";
+    
+  // }
+
+  if (answered === 2 && numberOfQuestionsAsked < questions.length) {
+
+    for (let i = 0; i < questions.length && timer > 2; i++) {
+
+      // eslint-disable-next-line no-undef
+      onScreen[i] = prompt(questions[i]);
+      if (onScreen[i] !== null) {
+        text(onScreen[i], 20, numberOfQuestionsAsked * 100);
+        timer = 0;
+        numberOfQuestionsAsked += 1;
+      }
+      
+    }
 
     // eslint-disable-next-line no-undef
-    info.text = prompt(info.base);
+    // info.text = prompt(info.base);
 
-    if (info.base !== null) {
-      text(info.text, 20, question * 100);
-      timer = 0;
-      question += 1;
-    }
+    // if (info.base !== null) {
+    //   text(info.text, 20, numberOfQuestionsAsked * 100);
+    //   timer = 0;
+    //   numberOfQuestionsAsked += 1;
+    // }
 
   }
   
