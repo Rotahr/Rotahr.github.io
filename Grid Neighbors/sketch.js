@@ -25,10 +25,10 @@ function draw() {
 
 function createEmptyGrid(cols, rows) {
   let empty = [];
-  for (let y = 0; y < cols; y++) {
+  for (let y=0; y<rows; y++) {
     empty.push([]);
-    for (let x = 0; x < rows; x++) { 
-      empty(y).push(0); 
+    for (let x=0; x<cols; x++) {
+      empty[y].push(0);
     }
   }
   return empty;
