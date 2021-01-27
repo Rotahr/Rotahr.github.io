@@ -15,20 +15,19 @@ let cellHeight;
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
+  grid = createEmptyGrid(10, 10);
+
   //replace Hardcorded grid with empty grid
 
   rows = grid.length;
   cols = grid[0].length;
   cellWidth = width / cols;
   cellHeight = height / rows;
-  
-
-  noStroke();
 
 }
 
 function draw() {
-  background(220);
+  background("white");
 
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
@@ -50,10 +49,10 @@ function mousePressed() {
   let y = Math.floor(mouseY / cellHeight);
 
     grid[y][x] = !grid[y][x];
-    grid[y+1][x] = !grid[y+1][x];
-    grid[y][x+1] = !grid[y][x+1];
-    grid[y][x-1] = !grid[y][x-1];
-    grid[y-1][x] = !grid[y-1][x];
+    // grid[y+1][x] = !grid[y+1][x];
+    // grid[y][x+1] = !grid[y][x+1];
+    // grid[y][x-1] = !grid[y][x-1];
+    // grid[y-1][x] = !grid[y-1][x];
     
 
 }
