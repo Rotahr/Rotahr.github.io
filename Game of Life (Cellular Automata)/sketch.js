@@ -36,7 +36,7 @@ function autoTurnIfRequired() {
   }
 }
 
-function mouseDragged() {
+function mousePressed() {
   let x = Math.floor(mouseX / cellWidth);
   let y = Math.floor(mouseY / cellHeight);
 
@@ -62,8 +62,13 @@ function displayGrid() {
 function toggleCell(x, y) {
   //check that the coordinates are in the array
   if (x >= 0 && x < cols && y >= 0 && y < rows) {
+    if (grid[y][x] === 1) {
+      grid[y][x] = 0;
+    }
+    else if (grid[y][x] === 0) {
       grid[y][x] = 1;
     }
+  }
 }
 
 function createEmptyGrid(cols, rows) {
