@@ -17,7 +17,7 @@ function setup() {
 
   rectHeights = generateHeight();
 
-  console.log(rectHeights)
+  console.log(rectHeights);
 
 }
 
@@ -29,7 +29,7 @@ function draw() {
   for(let i = bikeLocation; i < bikeLocation + rectNum; i++) {
     let rectWidth = width / rectNum;
     rect(rectWidth * (i - bikeLocation), height - rectHeights[i], 
-        rectWidth, rectHeights[i])
+      rectWidth, rectHeights[i]);
   }
 
   if (keyIsPressed) {
@@ -63,6 +63,6 @@ function generateHeight() {
 
   }
 
-return theHeights;
+  return theHeights;
 
 }
