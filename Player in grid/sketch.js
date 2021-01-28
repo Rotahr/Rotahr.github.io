@@ -5,6 +5,11 @@ const COLS = 30;
 let grid, cellWidth, cellHeight;
 let playerX = 0;
 let playerY = 0;
+let someMaze;
+
+function preload() {
+  someMaze = loadJSON("assets/myMaze.json");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -45,6 +50,9 @@ function keyPressed() {
   }
   if (key === "w") {
     movePlayer(playerX, playerY-1, playerX, playerY, "up");
+  }
+  if (key === "m") {
+    grid = someMaze;
   }
 }
 
