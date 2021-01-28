@@ -6,9 +6,13 @@ let grid, cellWidth, cellHeight;
 let playerX = 0;
 let playerY = 0;
 let someMaze;
+let playerImage, wallImage, grassImage;
 
 function preload() {
   someMaze = loadJSON("assets/myMaze.json");
+  playerImage = loadImage("assets/howl.png");
+  wallImage = loadImage("assets/wall.png");
+  grassImage = loadImage("assets/grass.png");
 }
 
 function setup() {
@@ -80,15 +84,18 @@ function displayGrid() {
   for (let y=0; y<ROWS; y++) {
     for (let x=0; x<COLS; x++) {
       if (grid[y][x] === 0) {
-        fill("white");
+        // fill("white");
+        image(grassImage, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
       }
       else if (grid[y][x] === 1) {
-        fill("black");
+        // fill("black");
+        image(wallImage, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
       }
       else if (grid[y][x] === 9) {
-        fill("red");
+        // fill("red");
+        image(playerImage, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
       }
-      rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+      // rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
     }
   }
 }
