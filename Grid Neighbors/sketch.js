@@ -6,11 +6,18 @@
 // - describe what you did to take this project "above and beyond"
 
 let grid = createEmptyGrid(10, 10);
-
 let rows, cols, cellWidth, cellHeight;
+let bgMusic;
+let clickSound;
+
+function preload() {
+  bgMusic = loadSound("assets/Background.mp3");
+  clickSound = loadSound("assets/Click.wav");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  bgMusic.loop();
   rows = grid.length;
   cols = grid[0].length;
   cellWidth = width/cols;
@@ -20,7 +27,6 @@ function setup() {
 function draw() {
   background(220);
   displayGrid();
-
 }
 
 function createEmptyGrid(cols, rows) {
@@ -55,6 +61,7 @@ function toggleCell(x, y) {
       grid[y][x] = 1;
     }
   }
+  clickSound.play();
 }
 
 function displayGrid() {
