@@ -3,12 +3,17 @@
 
 let state = 'not moving';
 
-let grid = [[0, 1, 0], [0, 1, 0], [0, 1, 0]];
+let grid = [[0,0,0],[0,0,0],[0,0,0]];
+
+let gridWinBlack = [[1,1,1],[1,1,1],[1,1,1]];
 
 let rows;
 let cols;
 let cellWidth;
 let cellHeight;
+
+let rectX;
+let rectY;
 
 
 function setup() {
@@ -23,18 +28,20 @@ function setup() {
   cellWidth = width / 2 / cols;
   cellHeight = height / 2 / rows;
   
+  rectX = width / 4; 
+  rectY = height / 4;
+
 }
 
 
 function draw() {
   background("white");
-  displayGrid();
 
-  if (frameCount % 20 === 0) {
-    
-    cellHeight += 2;
-    cellWidth += 2;
-
+  if (state === "moving") {
+    moveGrid();
+  }
+  else if (state === "not moving") {
+    displayGrid();
   }
 }
 
@@ -51,7 +58,17 @@ function mousePressed() {
     toggleCell(x + 1, y);
     toggleCell(x, y - 1);
     toggleCell(x - 1, y);
-  state = 'moving';
+
+}
+
+function moveGrid() {
+fill("black");
+rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
+
+if (frameCount % 1 === 0) {
+  rectX += 6;
+}
+
 }
 
 function displayGrid() {
@@ -64,6 +81,10 @@ function displayGrid() {
         fill("black");
       }
       rect(x * cellWidth + width / 4, y * cellHeight + height / 4, cellWidth, cellHeight);
+
+      if (JSON.stringify(grid) === JSON.stringify(gridWinBlack)) {
+        state = "moving";
+      }
     }
   }
 }
