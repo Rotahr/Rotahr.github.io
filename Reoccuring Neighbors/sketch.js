@@ -1,74 +1,63 @@
 // 2D Array Demo
 // Basic Grid
 
-let state = 'not moving';
-
+let state = "grid1";
 let grid = [[0,0,0],[0,0,0],[0,0,0]];
-
+let grid2 = [[0,0,1],[0,0,0],[0,0,0]];
 let gridWinBlack = [[1,1,1],[1,1,1],[1,1,1]];
-
-let rows;
-let cols;
-let cellWidth;
-let cellHeight;
-
-let rectX;
-let rectY;
-
+let gridWinWhite = [[0,0,0],[0,0,0],[0,0,0]];
+let rows, cols, cellWidth, cellHeight, rectX, rectY, rectXC, rectYC;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
   // grid = createEmptyGrid(cols, rows);
-
   //replace Hardcorded grid with empty grid
-
   rows = grid.length;
   cols = grid[0].length;
   cellWidth = width / 2 / cols;
   cellHeight = height / 2 / rows;
-  
   rectX = width / 4; 
   rectY = height / 4;
-
 }
-
 
 function draw() {
   background("white");
-
   if (state === "moving") {
     moveGrid();
   }
-  else if (state === "not moving") {
+  else if (state === "grid1") {
+    displayGrid();
+  }
+  else if (state === "grid2") {
     displayGrid();
   }
 }
 
-
 function mousePressed() {
   let mouseXx = mouseX - width / 4;
   let mouseYy = mouseY - height / 4;
-
   let x = Math.floor(mouseXx / cellWidth);
   let y = Math.floor(mouseYy / cellHeight);
-
     toggleCell(x, y);   //self
     toggleCell(x, y + 1);
     toggleCell(x + 1, y);
     toggleCell(x, y - 1);
     toggleCell(x - 1, y);
-
+    rectXC = rectX;
+    rectYC = rectY;
 }
 
 function moveGrid() {
 fill("black");
 rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
-
-if (frameCount % 1 === 0) {
-  rectX += 6;
-}
-
+  if (rectX < rectXC - width) {
+    grid = [grid2];
+    state = "grid2";
+  }
+rect(rectX + width, rectY, cellWidth * 3, cellHeight * 3);
+  if (frameCount % 1 === 0) {
+    rectX -= 6;
+  }
 }
 
 function displayGrid() {
@@ -99,6 +88,7 @@ function toggleCell(x, y) {
       grid[y][x] = 1;
     }
   }
+  // add wait timer when adding in main !!
 }
 
 function createEmptyGrid(cols, rows) {
@@ -111,5 +101,3 @@ function createEmptyGrid(cols, rows) {
   }
   return emptyGrid;
 }
-
-
