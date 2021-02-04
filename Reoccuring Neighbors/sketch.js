@@ -2,6 +2,7 @@
 // Basic Grid
 
 let state = "grid1";
+let gridNumber = 1;
 let grid = [[0,0,0],[0,0,0],[0,0,0]];
 let grid2 = [[0,0,1],[0,0,0],[0,0,0]];
 let gridWinBlack = [[1,1,1],[1,1,1],[1,1,1]];
@@ -29,6 +30,7 @@ function draw() {
     displayGrid();
   }
   else if (state === "grid2") {
+    grid = grid2;
     displayGrid();
   }
 }
@@ -48,10 +50,10 @@ function mousePressed() {
 }
 
 function moveGrid() {
+  for (let i = 0; i < )
 fill("black");
 rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
   if (rectX < rectXC - width) {
-    grid = [grid2];
     state = "grid2";
   }
 rect(rectX + width, rectY, cellWidth * 3, cellHeight * 3);
@@ -101,3 +103,13 @@ function createEmptyGrid(cols, rows) {
   }
   return emptyGrid;
 }
+
+
+
+
+let thing = 1;
+// want number1
+let number = [];
+let number1 = [1];
+
+//call to number + 1 cocanatonate?
