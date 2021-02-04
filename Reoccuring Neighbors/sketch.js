@@ -1,18 +1,20 @@
 // 2D Array Demo
 // Basic Grid
 
-let state = "grid1";
-let gridNumber = 1;
-let grid = [[0,0,0],[0,0,0],[0,0,0]];
-let grid2 = [[0,0,1],[0,0,0],[0,0,0]];
+let state = "not moving";
+let gridNumber = 0;
+let holdingGrid = [[[0,1,0],[0,0,0],[0,1,0]], [[0,0,1],[1,0,0],[0,0,1]]];
+let grid = [];
 let gridWinBlack = [[1,1,1],[1,1,1],[1,1,1]];
 let gridWinWhite = [[0,0,0],[0,0,0],[0,0,0]];
+let whiteToWin = false;
 let rows, cols, cellWidth, cellHeight, rectX, rectY, rectXC, rectYC;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   // grid = createEmptyGrid(cols, rows);
   //replace Hardcorded grid with empty grid
+  grid = holdingGrid[gridNumber];
   rows = grid.length;
   cols = grid[0].length;
   cellWidth = width / 2 / cols;
@@ -26,12 +28,28 @@ function draw() {
   if (state === "moving") {
     moveGrid();
   }
-  else if (state === "grid1") {
+  else if (state === "not moving") {
     displayGrid();
   }
-  else if (state === "grid2") {
-    grid = grid2;
-    displayGrid();
+
+  determineColorToWin();
+}
+
+function determineColorToWin() {
+  if (gridNumber === 3) {
+    whiteToWin = true;
+  }
+  if (gridNumber === 4) {
+    whiteToWin = false;
+  }
+  if (gridNumber === 5) {
+    whiteToWin = true;
+  }
+  if (gridNumber === 7) {
+    whiteToWin = false;
+  }
+  if (gridNumber === 1) {
+    whiteToWin = true;
   }
 }
 
@@ -50,15 +68,23 @@ function mousePressed() {
 }
 
 function moveGrid() {
-  for (let i = 0; i < )
-fill("black");
-rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
-  if (rectX < rectXC - width) {
-    state = "grid2";
-  }
-rect(rectX + width, rectY, cellWidth * 3, cellHeight * 3);
-  if (frameCount % 1 === 0) {
-    rectX -= 6;
+  for (let i = 0; i < gridNumber; i++) {
+    if (whiteToWin) {
+      fill("white");
+      rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
+    }
+    else if (!whiteToWin) {
+      fill("black");
+      rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
+    }
+    
+    rect(rectX + width, rectY, cellWidth * 3, cellHeight * 3);
+    if (frameCount % 1 === 0) {
+      rectX -= 6;
+    }
+    if (rectX < rectXC - width) {
+      state = "not moving";
+    }
   }
 }
 
@@ -72,9 +98,10 @@ function displayGrid() {
         fill("black");
       }
       rect(x * cellWidth + width / 4, y * cellHeight + height / 4, cellWidth, cellHeight);
-
-      if (JSON.stringify(grid) === JSON.stringify(gridWinBlack)) {
+      if (JSON.stringify(grid) === JSON.stringify(gridWinWhite)) {
+        gridNumber += 1;
         state = "moving";
+        grid = holdingGrid[gridNumber];
       }
     }
   }
@@ -103,13 +130,3 @@ function createEmptyGrid(cols, rows) {
   }
   return emptyGrid;
 }
-
-
-
-
-let thing = 1;
-// want number1
-let number = [];
-let number1 = [1];
-
-//call to number + 1 cocanatonate?
