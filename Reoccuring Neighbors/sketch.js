@@ -32,25 +32,24 @@ function draw() {
     displayGrid();
   }
 
-  determineColorToWin();
 }
 
 function determineColorToWin() {
-  if (gridNumber === 3) {
-    whiteToWin = true;
-  }
-  if (gridNumber === 4) {
-    whiteToWin = false;
-  }
-  if (gridNumber === 5) {
-    whiteToWin = true;
-  }
-  if (gridNumber === 7) {
-    whiteToWin = false;
-  }
-  if (gridNumber === 1) {
-    whiteToWin = true;
-  }
+  // if (gridNumber === 3) {
+  //   whiteToWin = true;
+  // }
+  // else if (gridNumber === 4) {
+  //   whiteToWin = false;
+  // }
+  // else if (gridNumber === 5) {
+  //   whiteToWin = true;
+  // }
+  // else if (gridNumber === 7) {
+  //   whiteToWin = false;
+  // }
+  // else if (gridNumber === 1) {
+  //   whiteToWin = true;
+  // }
 }
 
 function mousePressed() {
@@ -58,13 +57,14 @@ function mousePressed() {
   let mouseYy = mouseY - height / 4;
   let x = Math.floor(mouseXx / cellWidth);
   let y = Math.floor(mouseYy / cellHeight);
-    toggleCell(x, y);   //self
-    toggleCell(x, y + 1);
-    toggleCell(x + 1, y);
-    toggleCell(x, y - 1);
-    toggleCell(x - 1, y);
-    rectXC = rectX;
-    rectYC = rectY;
+  toggleCell(x, y);   //self
+  toggleCell(x, y + 1);
+  toggleCell(x + 1, y);
+  toggleCell(x, y - 1);
+  toggleCell(x - 1, y);
+  rectXC = rectX;
+  rectYC = rectY;
+  determineColorToWin();
 }
 
 function moveGrid() {
@@ -98,10 +98,19 @@ function displayGrid() {
         fill("black");
       }
       rect(x * cellWidth + width / 4, y * cellHeight + height / 4, cellWidth, cellHeight);
-      if (JSON.stringify(grid) === JSON.stringify(gridWinWhite)) {
-        gridNumber += 1;
-        state = "moving";
-        grid = holdingGrid[gridNumber];
+      if (whiteToWin) {
+        if (JSON.stringify(grid) === JSON.stringify(gridWinWhite)) {
+          gridNumber += 1;
+          state = "moving";
+          grid = holdingGrid[gridNumber];
+        }
+      }
+      else if (!whiteToWin) {
+        if (JSON.stringify(grid) === JSON.stringify(gridWinBlack)) {
+          gridNumber += 1;
+          state = "moving";
+          grid = holdingGrid[gridNumber];
+        }        
       }
     }
   }
