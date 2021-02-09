@@ -3,7 +3,7 @@
 
 let state = "not moving";
 let gridNumber = 0;
-let holdingGrid = [[[0,1,0],[0,0,0],[0,1,0]], [[0,0,1],[1,0,0],[0,0,1]]];
+let holdingGrid = [[[0,1,0],[0,0,0],[0,1,0]], [[0,0,1],[1,0,0],[0,0,1]], [[0,1,1],[1,0,0],[0,1,1]]];
 let grid = [];
 let gridWinBlack = [[1,1,1],[1,1,1],[1,1,1]];
 let gridWinWhite = [[0,0,0],[0,0,0],[0,0,0]];
@@ -31,25 +31,24 @@ function draw() {
   else if (state === "not moving") {
     displayGrid();
   }
-
 }
 
 function determineColorToWin() {
-  // if (gridNumber === 3) {
-  //   whiteToWin = true;
-  // }
-  // else if (gridNumber === 4) {
-  //   whiteToWin = false;
-  // }
-  // else if (gridNumber === 5) {
-  //   whiteToWin = true;
-  // }
-  // else if (gridNumber === 7) {
-  //   whiteToWin = false;
-  // }
-  // else if (gridNumber === 1) {
-  //   whiteToWin = true;
-  // }
+  if (gridNumber === 3) {
+    whiteToWin = true;
+  }
+  else if (gridNumber === 4) {
+    whiteToWin = false;
+  }
+  else if (gridNumber === 5) {
+    whiteToWin = true;
+  }
+  else if (gridNumber === 7) {
+    whiteToWin = false;
+  }
+  else if (gridNumber === 1) {
+    whiteToWin = true;
+  }
 }
 
 function mousePressed() {
@@ -77,11 +76,25 @@ function moveGrid() {
       fill("black");
       rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
     }
-    
-    rect(rectX + width, rectY, cellWidth * 3, cellHeight * 3);
-    if (frameCount % 1 === 0) {
-      rectX -= 6;
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        if (grid[y][x] === 0) {
+          fill("white");
+          rect(rectX * x + width, rectY * y, cellWidth, cellHeight);
+        }
+        else if (grid[y][x] === 1) {
+          fill("black");
+          rect(rectX * x + width, rectY * y, cellWidth, cellHeight);
+        }
+        if (frameCount % 1 === 0) {
+          rectX -= 6;
+        }
+      }
     }
+    // rect(rectX + width, rectY, cellWidth * 3, cellHeight * 3);
+    // if (frameCount % 1 === 0) {
+    //   rectX -= 6;
+    // }
     if (rectX < rectXC - width) {
       state = "not moving";
     }
