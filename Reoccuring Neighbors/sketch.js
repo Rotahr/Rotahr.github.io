@@ -14,9 +14,9 @@ let rows, cols, cellWidth, cellHeight, rectX, rectY, rectXC, rectYC;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  // grid = createEmptyGrid(cols, rows);
+  grid = createEmptyGrid(3, 3);
   //replace Hardcorded grid with empty grid
-  grid = holdingGrid[gridNumber];
+  // grid = holdingGrid[gridNumber];
   rows = grid.length;
   cols = grid[0].length;
   cellWidth = width / 2 / cols;
@@ -94,7 +94,8 @@ function displayGrid() {
       if (JSON.stringify(grid) === JSON.stringify(gridWinBlack)) {
         gridNumber += 1;
         state = "moving";
-        grid = holdingGrid[gridNumber];
+        // grid = holdingGrid[gridNumber];
+        grid = createEmptyGrid(3, 3);
       } 
     }
   }
@@ -118,7 +119,7 @@ function createEmptyGrid(cols, rows) {
   for (let y = 0; y<rows; y++) {
     emptyGrid.push([]);
     for (let x=0; x<cols; x++) {
-      emptyGrid[y].push(0);
+      emptyGrid[y].push(random(0, 1));
     }
   }
   return emptyGrid;
