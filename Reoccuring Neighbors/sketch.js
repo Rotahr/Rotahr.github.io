@@ -28,6 +28,7 @@ function setup() {
 
 function draw() {
   background("white");
+  fill("black");
   textSize(37);
   text("Score: " + gridNumber, 30, 50);
   if (state === "moving") {
@@ -56,9 +57,6 @@ function mousePressed() {
 }
 
 function moveGrid() {
-  fill("black");
-  rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
-
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
       if (grid[y][x] === 0) {
@@ -69,6 +67,8 @@ function moveGrid() {
         fill("black");
         rect(rectX + x * cellWidth + width, rectY + y * cellHeight, cellWidth, cellHeight);
       }
+      fill("black");
+      rect(rectX + x * cellWidth, rectY + y * cellHeight, cellWidth, cellHeight);
     }
   }
   if (frameCount % 1 === 0) {
@@ -95,8 +95,8 @@ function displayGrid() {
       if (JSON.stringify(grid) === JSON.stringify(gridToWin)) {
         state = "moving";
         gridNumber += 1;
-        rows = gridNumber + 3;
-        cols = gridNumber + 3;
+        rows = floor(gridNumber/3) + 3;
+        cols = floor(gridNumber/3) + 3;
         cellWidth = width / 2 / cols;
         cellHeight = height / 2 / rows;
         gridToWin = createWinningGrid(rows, cols);
