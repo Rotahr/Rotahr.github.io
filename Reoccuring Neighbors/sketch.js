@@ -9,16 +9,17 @@ let state = "not moving";
 let gridNumber = 0;
 let holdingGrid = [[[0,1,0],[0,0,0],[0,1,0]], [[0,0,1],[1,0,0],[0,0,1]], [[0,1,1],[1,0,0],[0,1,1]]];
 let grid = [];
-let gridWinBlack = [[1,1,1],[1,1,1],[1,1,1]];
+let gridToWin = [];
 let rows, cols, cellWidth, cellHeight, rectX, rectY, rectXC, rectYC;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  grid = createEmptyGrid(3, 3);
+  rows = floor(gridNumber/3) + 3;
+  cols = floor(gridNumber/3) + 3;
+  grid = createRandomGrid(rows, cols);
+  gridToWin = createWinningGrid(rows, cols);
   //replace Hardcorded grid with empty grid
   // grid = holdingGrid[gridNumber];
-  rows = grid.length;
-  cols = grid[0].length;
   cellWidth = width / 2 / cols;
   cellHeight = height / 2 / rows;
   rectX = width / 4; 
@@ -27,6 +28,8 @@ function setup() {
 
 function draw() {
   background("white");
+  textSize(37);
+  text("Score: " + gridNumber, 30, 50);
   if (state === "moving") {
     moveGrid();
   }
@@ -34,7 +37,6 @@ function draw() {
     displayGrid();
   }
 }
-
 
 function mousePressed() {
   let mouseXx = mouseX - width / 4;
@@ -46,38 +48,37 @@ function mousePressed() {
   toggleCell(x + 1, y);
   toggleCell(x, y - 1);
   toggleCell(x - 1, y);
-  rectXC = rectX;
-  rectYC = rectY;
+  if (state === "not moving") {
+    rectXC = rectX;
+    rectYC = rectY;
+    gridToWin = createWinningGrid(rows, cols);
+  }
 }
 
 function moveGrid() {
-  for (let i = 0; i < gridNumber; i++) {
+  fill("black");
+  rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
 
-    fill("black");
-    rect(rectX, rectY, cellWidth * 3, cellHeight * 3);
-
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        if (grid[y][x] === 0) {
-          fill("white");
-          rect(rectX + x * cellWidth + width, rectY + y * cellHeight, cellWidth, cellHeight);
-        }
-        else if (grid[y][x] === 1) {
-          fill("black");
-          rect(rectX + x * cellWidth + width, rectY + y * cellHeight, cellWidth, cellHeight);
-        }
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      if (grid[y][x] === 0) {
+        fill("white");
+        rect(rectX + x * cellWidth + width, rectY + y * cellHeight, cellWidth, cellHeight);
+      }
+      else if (grid[y][x] === 1) {
+        fill("black");
+        rect(rectX + x * cellWidth + width, rectY + y * cellHeight, cellWidth, cellHeight);
       }
     }
-    if (frameCount % 1 === 0) {
-      rectX -= 4;
-    }
-    // rect(rectX + width, rectY, cellWidth * 3, cellHeight * 3);
-    // if (frameCount % 1 === 0) {
-    //   rectX -= 6;
-    // }
-    if (rectX < rectXC - width) {
-      state = "not moving";
-    }
+  }
+  if (frameCount % 1 === 0) {
+    rectX -= 6;
+  }
+  if (rectX < rectXC - width) {
+    frameCount = 0;
+    rectX = rectXC;
+    rectY = rectYC;
+    state = "not moving";
   }
 }
 
@@ -91,14 +92,19 @@ function displayGrid() {
         fill("black");
       }
       rect(x * cellWidth + width / 4, y * cellHeight + height / 4, cellWidth, cellHeight);
-      if (JSON.stringify(grid) === JSON.stringify(gridWinBlack)) {
-        gridNumber += 1;
+      if (JSON.stringify(grid) === JSON.stringify(gridToWin)) {
         state = "moving";
+        gridNumber += 1;
+        rows = gridNumber + 3;
+        cols = gridNumber + 3;
+        cellWidth = width / 2 / cols;
+        cellHeight = height / 2 / rows;
+        gridToWin = createWinningGrid(rows, cols);
+        grid = createRandomGrid(rows, cols);
         // grid = holdingGrid[gridNumber];
-        grid = createEmptyGrid(3, 3);
-      } 
-    }
-  }
+      }
+    }      
+  } 
 }
 
 function toggleCell(x, y) {
@@ -111,15 +117,25 @@ function toggleCell(x, y) {
       grid[y][x] = 1;
     }
   }
-  // add wait timer when adding in main !!
 }
 
-function createEmptyGrid(cols, rows) {
+function createRandomGrid(cols, rows) {
   let emptyGrid = [];
   for (let y = 0; y<rows; y++) {
     emptyGrid.push([]);
     for (let x=0; x<cols; x++) {
-      emptyGrid[y].push(random(0, 1));
+      emptyGrid[y].push(round(random(0, 1)));
+    }
+  }
+  return emptyGrid;
+}
+
+function createWinningGrid(cols, rows) {
+  let emptyGrid = [];
+  for (let y = 0; y<rows; y++) {
+    emptyGrid.push([]);
+    for (let x=0; x<cols; x++) {
+      emptyGrid[y].push(1);
     }
   }
   return emptyGrid;
