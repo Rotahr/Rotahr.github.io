@@ -1,9 +1,6 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Chess + Engine
+// Samein Dorazahi
+// 26/07/21
 
 let pieces = [];
 
@@ -21,8 +18,12 @@ function setup() {
   //add pawn to grid
   for (let y=0; y<rows; y++) {
     for (let x=0; x<cols; x++) {
-      if (y === 1 || y === 6) {
-        let pawns = new Piece(x, y, "pawn");
+      if (y === 6) {
+        let pawns = new Piece(x, y, "pawn", "white");
+        pieces.push(pawns);
+      }
+      if (y === 1) {
+        let pawns = new Piece(x, y, "pawn", "black");
         pieces.push(pawns);
       }
     }
@@ -30,18 +31,39 @@ function setup() {
 }
 
 class Piece {
-  constructor(x, y, type) {
+  constructor(x, y, type, side) {
     this.x = x;
     this.y = y;
     this.type = type;
+    this.side = side;
   }
 
   display() {
-    noStroke();
-    if (this.type === "pawn") {
+    if (this.type === "pawn" && this.side === "black") {
       grid[this.y][this.x] = 9;
     }
+    else if (this.type === "pawn" && this.side === "white") {
+      grid[this.y][this.x] = 8;
+    }
   }
+
+  Move() {
+    let x = Math.floor(mouseX / cellWidth);
+    let y = Math.floor(mouseY / cellHeight);
+
+    if (grid[y][x] === 9) { 
+      if (grid[y+1][x] === 1) {
+        grid[y][x] = 0;
+      }  
+      else if (grid[y+1][x] === 0) {
+        grid[y][x] = 1;
+      }        
+    }
+  }
+}
+
+function mousePressed() {
+  
 }
 
 function draw() {
@@ -64,7 +86,9 @@ function displayGrid() {
       }
       else if (grid[y][x] === 9) {
         fill("red");
-        // image(pawnImage, x * cellWidth, y * cellHeight, cellWidth, cellHeight);
+      }
+      else if (grid[y][x] === 8) {
+        fill("blue");
       }
       rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
     }
