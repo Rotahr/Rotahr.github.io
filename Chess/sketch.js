@@ -7,7 +7,7 @@ let pieces = [];
 let highlight = "white";
 let rows = 8;
 let cols = 8;
-let grid, cellWidth, cellHeight, backGrid, pnum, my, mx;
+let grid, cellWidth, cellHeight, backGrid, pnum, pnumr, my, mx, myr, mxr;
 
 
 function setup() {
@@ -61,6 +61,12 @@ class Piece {
   move() {
     console.log(this.y, this.x);
     highlight = this.fil;
+    pieces[pnumr] = pieces[pnum];
+    if (pieces[pnum] !== pieces[pnumr]) {
+      pieces[pnum] = 0;
+    }
+    this.x = mxr;
+    this.y = myr;
   }
 }
 
@@ -73,12 +79,20 @@ function draw() {
   strokeWeight(1);
 }
 
+function mouseReleased() {
+  mxr = Math.floor(mouseX / cellWidth);
+  myr = Math.floor(mouseY / cellHeight);
+  pnumr = myr*8 + mxr;
+  console.log(myr, mxr, grid[myr][mxr], "pr", pnumr);
+  pieces[pnum].move();
+}
+
 function mousePressed() {
   mx = Math.floor(mouseX / cellWidth);
   my = Math.floor(mouseY / cellHeight);
   pnum = my*8 + mx;
-  console.log(my, mx, grid[my][mx], pnum);
-  pieces[pnum].move();
+  console.log(my, mx, grid[my][mx], "p", pnum);
+  
   
   // if (grid[y][x] === 9) { 
   //   if (grid[y+1][x] === 1) {
