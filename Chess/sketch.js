@@ -4,7 +4,6 @@
 
 let pieces = [];
 
-let highlight = "white";
 let rows = 8;
 let cols = 8;
 let grid, cellWidth, cellHeight, backGrid, pnum, pnumr, my, mx, myr, mxr;
@@ -33,20 +32,14 @@ function setup() {
       }
     }
   }
-  for (let i=0; i<pieces.length; i++) {
-    if (pieces[i] !== 0) {
-      pieces[i].display();
-    }
-  }
 }
 
 class Piece {
-  constructor(x, y, type, side, fil) {
+  constructor(x, y, type, side) {
     this.x = x;
     this.y = y;
     this.type = type;
     this.side = side;
-    this.fil = fil;
   }
 
   display() {
@@ -59,24 +52,28 @@ class Piece {
   }
 
   move() {
-    console.log(this.y, this.x);
-    highlight = this.fil;
     pieces[pnumr] = pieces[pnum];
-    if (pieces[pnum] !== pieces[pnumr]) {
-      pieces[pnum] = 0;
-    }
     this.x = mxr;
     this.y = myr;
+    if (pnumr !== pnum) {
+      pieces[pnum] = 0;
+      grid[my][mx] = 0;
+    }
   }
 }
 
 function draw() {
   displayBackGrid();
   displayGrid();
-  strokeWeight(10);
-  fill(highlight);
+  strokeWeight(13);
+  noFill();
   rect(mx * cellWidth, my * cellHeight, cellWidth, cellHeight);
   strokeWeight(1);
+  for (let i=0; i<pieces.length; i++) {
+    if (pieces[i] !== 0) {
+      pieces[i].display();
+    }
+  }
 }
 
 function mouseReleased() {
@@ -92,16 +89,6 @@ function mousePressed() {
   my = Math.floor(mouseY / cellHeight);
   pnum = my*8 + mx;
   console.log(my, mx, grid[my][mx], "p", pnum);
-  
-  
-  // if (grid[y][x] === 9) { 
-  //   if (grid[y+1][x] === 1) {
-  //     grid[y][x] = 0;
-  //   }  
-  //   else if (grid[y-1][x] === 0) {
-  //     grid[y][x] = 1;
-  //   }        
-  // }
 }
 
 function displayGrid() {

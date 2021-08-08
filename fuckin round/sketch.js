@@ -1,9 +1,11 @@
 let allNumbers = [];
 let localNumbers = [];
 let potentAnswer = [];
+let StoredNumbers;
 
 let speed = 1;
-let debut = 1;
+let debut = 773700;
+let lastNumber;
 let x = debut;
 let iterations = 0;
 let previousIter = 0;
@@ -11,11 +13,19 @@ let highestIter = 0;
 let highestNum = 0;
 let answer = 0;
 
+function preload() {
+  lastNumber = loadJSON("assets/Debut.json");
+  StoredNumbers = loadJSON("assets/StoredNumbers.json");
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textSize(50);
   textAlign(CENTER);
-  // eslint-disable-next-line no-undef
+
+  for (let i in StoredNumbers) {
+    allNumbers.push(StoredNumbers[i]);
+  }
 }
 
 function draw() {
@@ -87,4 +97,11 @@ function localChecker() {
     }
   }
   localNumbers.push(x);
+}
+
+function keyPressed() {
+  if (keyCode === 111) {
+    saveJSON(allNumbers, "StoredNumbers", true);
+    save(debut, "Debut");
+  }
 }
