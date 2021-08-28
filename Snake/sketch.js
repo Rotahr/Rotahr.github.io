@@ -5,8 +5,8 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-const ROWS = 20;
-const COLS = 30;
+const ROWS = 5;
+const COLS = 5;
 let grid, cellWidth, cellHeight;
 let playerX = 0;
 let playerY = 0;
@@ -15,10 +15,12 @@ let snakeSize = 1;
 let fruitX = 0;
 let fruitY = 0;
 let oldturn = 0;
+let check;
 let turn = 0;
-let waitTime = 2000;
+let timer = 0;
+let waitTime = 1000;
 let increase = waitTime;
-let direction = "right";
+let direction = 2;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -33,38 +35,25 @@ function setup() {
 function draw() {
   background(220);
   displayGrid();
-  fill("white");
-  text(turn, width - width/4, height - height/4);
-  if (millis() > waitTime) {
-    oldturn = turn;
+  fill("cyan");
+  textSize(height/10);
+  text(turn, 0, height/13);
+  text(snakeSize, 0, height/5);
+  if (timer > waitTime) {
     turn++;
-    waitTime += increase;
+    movePlayer();
+    waitTime = millis() + increase;
   }
-  if (turn !== oldturn) {
-    if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
-      if (direction === "right") {
-        playerX += 1;
-      }
-      else if (direction === "left") {
-        playerX -= 1;
-      }
-      else if (direction === "down") {
-        playerY += 1;
-      }
-      else if (direction === "up") {
-        playerY -= 1;
-      }
-      oldturn = turn;
-    }
-  }
+  timer = millis();
   grid[playerY][playerX] = 9;
 }
 
 function spawnFruit() {
-  fruitX = ceil(random(0, COLS));
-  fruitY = ceil(random(0, ROWS));
+  fruitX = floor(random(0, COLS));
+  fruitY = floor(random(0, ROWS));
   if (grid[fruitY][fruitX] !== 9) {
     grid[fruitY][fruitX] = 1;
+    check = 0;
   }
   else {
     spawnFruit();
@@ -73,31 +62,58 @@ function spawnFruit() {
 
 function keyPressed() {
   if (key === "d") {
-    movePlayer(playerX+1, playerY, playerX, playerY);
-    direction = "right";
+    direction = 2;
+    timer = waitTime+1;
   }
   if (key === "a") {
-    movePlayer(playerX-1, playerY, playerX, playerY);
-    direction = "left";
+    direction = 4;
+    timer = waitTime+1;
   }
   if (key === "s") {
-    movePlayer(playerX, playerY+1, playerX, playerY);
-    direction = "down";
+    direction = 3;
+    timer = waitTime+1;
   }
   if (key === "w") {
-    movePlayer(playerX, playerY-1, playerX, playerY);
-    direction = "up";
+    direction = 1;
+    timer = waitTime+1;
   }
 }
 
-function movePlayer(x, y, oldX, oldY) {
+function movePlayer() {
+  let x = playerX;
+  let y = playerY;
+  if (direction === 2) {
+    x++;
+  }
+  if (direction === 1) {
+    y--;
+  }
+  if (direction === 3) {
+    y++;
+  }
+  if (direction === 4) {
+    x--;
+  }
   if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
     if (grid[y][x] === 1) {
       spawnFruit();
+      snakeSize++;
+      check = 0;
+      for (let y=0; y<ROWS; y++) {
+        for (let x=0; x<COLS; x++) {
+          if (grid[y][x] === 1) {
+            check++;
+          }
+        }
+      }
     }
-    grid[y][x] = 9; //new player location
-    // grid[oldY][oldX] = 0; //remove player from old spot
-    turn++;
+    grid[y][x] = 9;
+    oldturn++;
+    playerY = y;
+    playerX = x;
+    if (check === 1) {
+      spawnFruit();
+    }
   }
 }
 
