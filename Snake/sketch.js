@@ -14,13 +14,13 @@ let playerImage, wallImage, grassImage;
 let snakeSize = 1;
 let fruitX = 0;
 let fruitY = 0;
-let oldturn = 0;
 let check;
-let turn = 0;
+let turn = 1;
 let timer = 0;
 let waitTime = 1000;
 let increase = waitTime;
 let direction = 2;
+let directions = [1, 2, 3, 4];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -28,7 +28,7 @@ function setup() {
   cellWidth = width / COLS;
   cellHeight = height / ROWS;
   //add player to grid
-  grid[playerY][playerX] = 9;
+  grid[playerY][playerX] = 1;
   spawnFruit();
 }
 
@@ -40,19 +40,18 @@ function draw() {
   text(turn, 0, height/13);
   text(snakeSize, 0, height/5);
   if (timer > waitTime) {
-    turn++;
     movePlayer();
     waitTime = millis() + increase;
   }
   timer = millis();
-  grid[playerY][playerX] = 9;
+
 }
 
 function spawnFruit() {
   fruitX = floor(random(0, COLS));
   fruitY = floor(random(0, ROWS));
-  if (grid[fruitY][fruitX] !== 9) {
-    grid[fruitY][fruitX] = 1;
+  if (grid[fruitY][fruitX] === 0) {
+    grid[fruitY][fruitX] = -1;
     check = 0;
   }
   else {
@@ -95,24 +94,33 @@ function movePlayer() {
     x--;
   }
   if (x >= 0 && x < COLS && y >= 0 && y < ROWS) {
-    if (grid[y][x] === 1) {
-      spawnFruit();
-      snakeSize++;
-      check = 0;
-      for (let y=0; y<ROWS; y++) {
-        for (let x=0; x<COLS; x++) {
-          if (grid[y][x] === 1) {
-            check++;
+    if (grid[y][x] === -1 || grid[y][x] === 0) {
+      if (grid[y][x] === -1) {
+        spawnFruit();
+        snakeSize++;
+        check = 0;
+        for (let y=0; y<ROWS; y++) {
+          for (let x=0; x<COLS; x++) {
+            if (grid[y][x] === -1) {
+              check++;
+            }
           }
         }
       }
-    }
-    grid[y][x] = 9;
-    oldturn++;
-    playerY = y;
-    playerX = x;
-    if (check === 1) {
-      spawnFruit();
+      turn++;
+      grid[y][x] = turn;
+      playerY = y;
+      playerX = x;
+      if (check === 1) {
+        spawnFruit();
+      }
+      for (let y=0; y<ROWS; y++) {
+        for (let x=0; x<COLS; x++) {
+          if (grid[y][x] === turn - snakeSize) {
+            grid[y][x] = 0;
+          }
+        }
+      }
     }
   }
 }
@@ -123,13 +131,15 @@ function displayGrid() {
       if (grid[y][x] === 0) {
         fill("black");
       }
-      else if (grid[y][x] === 1) {
+      else if (grid[y][x] === -1) {
         fill("red");
       }
-      else if (grid[y][x] === 9) {
+      else if (grid[y][x] >= 1) {
         fill("white");
       }
       rect(x*cellWidth, y*cellHeight, cellWidth, cellHeight);
+      fill("black");
+      text(grid[y][x] - turn + snakeSize, x*cellWidth, y*cellWidth);
     }
   }
 }
